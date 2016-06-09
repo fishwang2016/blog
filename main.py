@@ -26,7 +26,9 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("shopping_list.html")
+    	n = self.request.get("n")
+    	n = int(n)
+        self.render("shopping_list.html",name =self.request.get("name"), n=n)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)], debug=True)
