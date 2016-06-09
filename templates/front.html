@@ -13,7 +13,7 @@
 				<div>
 					title
 				</div>
-				<input type="text" name="title" value ="{{title}}"> 
+				<input type="text" name="title" value ="{{title}}">
 			</label>
 
 			<label>
@@ -27,18 +27,19 @@
 		   <div class="error">{{error}}</div>
 		</form>
 
-		<ul>
 
+<hr>
 
 		{% for art in arts %}
 		   <label>
-		   	{{art.title}}
 
-			<li>{{art.art}}</li>
+		    <div>{{art.title}} </div>
+
+			<pre>{{art.art}}</pre>
 		  </label>
 
 		{% endfor %}
-		</ul>
+
 
 
 

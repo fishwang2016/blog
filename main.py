@@ -69,10 +69,7 @@ class MainHandler(Handler):
 
 
 	def get(self):
-
-		items = self.request.get_all("food")
-
-		self.render("front.html")
+		self.render_front()
 
 	def post(self):
 
