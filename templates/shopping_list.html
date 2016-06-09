@@ -1,16 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <form >
 	 <h2>Add a Food</h2>
 	 <input type= "text" name = "food">
+
+	 {% if items %}
+	     {% for item in items %}
+	        <input type="hidden" name="food" value = {{item}}>
+
+	     {% endfor %}
+
+     {% endif %}
+
 	 <button >Add</button>
 
-	 <h2>hello,{{name}}</h2>
+	 <br>
+	 <br>
+	 <h2>Shopping List</h2>
+	 <ol>
 
-	 {% if n==1 %}
-	     n equals 1
-	 {% else %}
-	     n does not equal 1
+	 	{% for item in items %}
+	 		<li>{{ item }}</li>
+	 	{% endfor %}
 
-	 {% endif %}
+	 </ol>
 
 
 </form>
+
+{% endblock %}

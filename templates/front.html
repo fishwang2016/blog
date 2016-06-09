@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>/ascii/</title>
+	</head>
+	<body>
+
+		<h1>/ascii/</h1>
+
+		<form method="post" accept-charset="utf-8">
+			<label>
+				<div>
+					title
+				</div>
+				<input type="text" name="title" value ="{{title}}"> 
+			</label>
+
+			<label>
+				<div> art</div>
+				<textarea name="art">{{art}}</textarea>
+
+		    </label>
+
+
+		   <button type="submit">提交</button>
+		   <div class="error">{{error}}</div>
+		</form>
+
+		<ul>
+
+
+		{% for art in arts %}
+		   <label>
+		   	{{art.title}}
+
+			<li>{{art.art}}</li>
+		  </label>
+
+		{% endfor %}
+		</ul>
+
+
+
+	</body>
+</html>

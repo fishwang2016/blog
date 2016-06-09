@@ -6,8 +6,20 @@ import webapp2
 import os
 
 import jinja2
+
+from google.appengine.ext import db
+
+
 template_dir = os.path.join(os.path.dirname(__file__),'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),autoescape = True)
+
+class Art(db.Model):
+	title = db.StringProperty(required=True)
+	art = db.TextProperty(required = True)
+	created = db.DateTimeProperty(auto_now_add = True)
+
+
+
 
 
 class Handler(webapp2.RequestHandler):
@@ -24,11 +36,62 @@ class Handler(webapp2.RequestHandler):
 
 
 
+
+class FizzBuzzHandler(Handler):
+	def get(self):
+		n = self.request.get("n")
+		n = int(n)
+		self.render("fizzbuzz.html",n = n)
+
+
+class Rot13Handler(Handler):
+	def post(self):
+		content = self.request.get("name")
+
+		self.redirect("/?"+urllib.urlencode(content))
+
+
+class ShoppingHandler(Handler):
+
+
+	def get(self):
+
+		items = self.request.get_all("food")
+		self.render("shopping_list.html",items=items)
+
 class MainHandler(Handler):
-    def get(self):
-    	n = self.request.get("n")
-    	n = int(n)
-        self.render("shopping_list.html",name =self.request.get("name"), n=n)
+	def render_front(self,title ="", art ="",error =""):
+
+		arts = db.GqlQuery("select * from Art order by created desc")
+		print arts
+		self.render("front.html",title =title,art =art,  error =error,arts=arts)
+
+
+
+	def get(self):
+
+		items = self.request.get_all("food")
+
+		self.render("front.html")
+
+	def post(self):
+
+		title = self.request.get("title")
+		art = self.request.get("art")
+
+		if  (title and art):
+			a = Art(title= title,art=art)
+			a.put()
+			self.redirect("/")
+
+		else:
+			error = "require both title and art"
+			self.render_front(title,art,error)
+
+
+
+
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)], debug=True)
+	('/', MainHandler),('/fizz',FizzBuzzHandler),('/rot13',Rot13Handler),('/shopping',ShoppingHandler)], debug=True)
